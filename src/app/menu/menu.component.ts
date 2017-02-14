@@ -10,7 +10,7 @@ import { MenuService } from './menu.service'
 export class MenuComponent implements OnInit {
     abstract;
 
-    listMenus: any[];
+    listMenus: any = [];
 
     constructor(
         private menuService: MenuService
@@ -18,7 +18,9 @@ export class MenuComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.listMenus = this.menuService.getListMenu();
+        this.menuService.getListMenu().subscribe(listMenus => {
+            this.listMenus = listMenus;
+        });
     }
 
 }

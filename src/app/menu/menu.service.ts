@@ -1,22 +1,18 @@
 import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class MenuService {
 
-    constructor() {
+    constructor(
+        private http: Http
+    ) {
     }
 
     getListMenu() {
-        return [
-            {id: 1, name: 'Assinatura de Email', url: 'assinatura'},
-            {id: 2, name: 'Apresentação', url: 'apresentacao'},
-            {id: 3, name: 'Banner', url: 'banner'},
-            {id: 4, name: 'Certificado', url: 'certificado'},
-            {id: 5, name: 'Logomarca', url: 'logomarca'},
-            {id: 6, name: 'Papel de Parede', url: 'papel'},
-            {id: 7, name: 'Proposta Comercial', url: 'proposta'},
-            {id: 8, name: 'Template', url: 'template'}
-        ];
+        return this.http.get('/api/menus')
+            .map(res => res.json());
     }
 
 }
