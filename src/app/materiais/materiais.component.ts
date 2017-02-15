@@ -28,11 +28,9 @@ export class MateriaisComponent implements OnInit {
 
             console.log(url);
 
-            this.materiais = this.materiaisService.getMateriais(url);
-
-            if (this.materiais == null) {
-                this.router.navigate(['/naoEncontrado']);
-            }
+            this.materiaisService.getMateriais(url).subscribe(materiais => {
+              this.materiais = materiais;
+            });
         });
     }
 

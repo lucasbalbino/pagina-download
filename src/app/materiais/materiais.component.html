@@ -1,3 +1,4 @@
-<p>
-    Materiais da seguinte url: {{materiais}}
+<p *ngFor="let material of materiais">
+    <img src="{{material.content}}" width="100">
+    <a href="{{material.link}}" target="_blank">{{material.name}}</a>
 </p>

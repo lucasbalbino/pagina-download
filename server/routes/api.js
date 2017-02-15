@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
+const path = require('path');
 
 // declare axios for making http requests
 const axios = require('axios');
@@ -10,14 +11,12 @@ const API = 'https://jsonplaceholder.typicode.com';
 const srcFolder = './materiais/';
 let menus = [];
 fs.readdir(srcFolder, (err, files) => {
-    let i=0;
-    files.forEach(file => {
+    files.forEach((file, i) => {
         menus.push({
             id: i,
             name: file,
             url: file.split(' ', 1)[0].toLowerCase()
         });
-        i++;
     });
 });
 
@@ -31,10 +30,45 @@ router.get('/menus', (req, res) => {
     res.send(menus);
 });
 
+// function that list all the files from the directory
+function listFiles(url) {
+    let files = [];
+    menus.forEach(menu => {
+        if (menu.url == url || url == 'undefined') {
+            let pathFile = srcFolder + menu.name;
+            let fileNames = fs.readdirSync(pathFile);
+            fileNames.forEach((file, i) => {
+                let extension = path.extname(file).split('.').pop();
+                let content = null;
+
+                if (extension.toLowerCase() == 'png' || extension.toLowerCase() == 'jpg') {
+                    let data = fs.readFileSync(pathFile + '/' + file);
+
+                    //convert image file to base64-encoded string
+                    let base64Image = new Buffer(data, 'binary').toString('base64');
+
+                    //combine all strings
+                    content = "data:image/"+extension+';base64,'+base64Image;
+                }
+
+                files.push({
+                    id: i,
+                    name: file,
+                    link: pathFile + '/' + file,
+                    ext: extension,
+                    content: content
+                });
+            });
+        }
+    });
+    return files.sort((a, b) => {
+        return a.name.localeCompare(b.name);
+    });
+}
+
 /* GET api listing. */
 router.get('/materiais/:url', (req, res) => {
-    //res.send(menus);
-    console.log(req.params);
+    res.send(listFiles(req.params.url));
 });
 
 // Get all posts
