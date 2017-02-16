@@ -1,4 +1,8 @@
-<p *ngFor="let material of materiais">
-    <img src="{{material.content}}" width="100">
-    <a href="{{material.link}}" target="_blank">{{material.name}}</a>
-</p>
+<div class="card-deck">
+    <div class="card" *ngFor="let material of materiais">
+        <img class="card-img-top" src="{{material.content}}" alt="{{material.extension}}" width="100">
+        <div class="card-block">
+            <p class="card-text"><a href="{{material.link}}" target="_blank">{{material.name}}</a></p>
+        </div>
+    </div>
+</div>

@@ -26,8 +26,6 @@ export class MateriaisComponent implements OnInit {
         this.inscricao = this.route.params.subscribe(params => {
             let url = params['url'];
 
-            console.log(url);
-
             this.materiaisService.getMateriais(url).subscribe(materiais => {
               this.materiais = materiais;
             });

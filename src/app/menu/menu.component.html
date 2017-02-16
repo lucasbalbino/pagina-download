@@ -1,5 +1,8 @@
 <nav class="nav flex-column">
     <a class="nav-link"
+       routerLink=""
+       routerLinkActive="active">< Voltar</a>
+    <a class="nav-link"
        *ngFor="let menu of listMenus"
        [routerLink]="menu.url"
        routerLinkActive="active">{{menu.name}}</a>
